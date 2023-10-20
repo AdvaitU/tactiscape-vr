@@ -11,8 +11,9 @@
 ### August 01 - August 15 
 ### August 16 - August 31
 ## September
-### September 01 - September 15 
-### September 16 - September 30
+### September 01 - September 10 
+### September 11 - September 20
+### September 21 - September 31
 ## October
 ### October 01 - October 10 
 ### October 11 - October 20
