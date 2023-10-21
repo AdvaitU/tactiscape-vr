@@ -1,22 +1,33 @@
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+                                      -------------------------------------- HAND ANIMATION SCRIPT ------------------------------------------
+
+- SUMMARY: This script animates the hands into a pinch and a fist according to trigger movements
+- USED IN: (None) Directly on object
+- FOUND ON: VR Origin Game Object in Unity
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+// Namespaces -------------------------------------------
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;   // Namespace for the new Input System in Unity
 
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------- START OF SCRIPT //
 public class AnimateHandOnInput : MonoBehaviour
 {
-    public InputActionProperty pinchAction;   // Public variable so we can assign reference from Interaction Toolkit Input System through reference
-    public InputActionProperty gripAction;
 
-    public Animator handAnimator;    // Animator that's attached to hand by reference in Unity
+    // OBJECT REFERENCES ----------------------------------------------------------------------------------------
+    public InputActionProperty pinchAction;   // Reference in Unity Inspector
+    public InputActionProperty gripAction;    // Reference in Unity Inspector
+    public Animator handAnimator;             // Reference in Unity Inspector
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    /* ------------------------------------------------------------------------- METHODS ---------------------------------------------------------------------------------- //
 
-    // Update is called once per frame
+        - Update() : Updates the animator according to values of trigger and grip buttons, thus animating it
+
+    // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
     void Update()
     {
         // Pinch Animation with 'Trigger' button
@@ -31,3 +42,5 @@ public class AnimateHandOnInput : MonoBehaviour
 
     }
 }
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------- END OF SCRIPT //
