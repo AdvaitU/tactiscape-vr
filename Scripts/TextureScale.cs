@@ -1,11 +1,22 @@
-// Only works on ARGB32, RGB24 and Alpha8 textures that are marked readable
-// Thanks to Eric5h5: https://web.archive.org/web/20210506234020/http://wiki.unity3d.com/index.php/TextureScale
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+                                      -------------------------------------- TEXTURE SCALE SCRIPT ------------------------------------------
 
+- SUMMARY: This script scales the a Texture2D object by an input factor
+- USED IN: (Import_Export.cs) Called in the main Import_Export.ScaleTexture() and Import_Export.ExportToPNG()
+- FOUND ON: 'Import/Export System' Game Object in Unity
+- CREDITS: Thanks to Eric5h5: https://web.archive.org/web/20210506234020/http://wiki.unity3d.com/index.php/TextureScale
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+// Namespaces -------------------------------------------------------------------
 using System.Threading;
 using UnityEngine;
 
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------START OF SCRIPT //
 public class TextureScale : MonoBehaviour
-{
+{   
+    // CONSTRUCTOR ----------------------------------------------------------------
     public class ThreadData
     {
         public int start;
@@ -17,6 +28,7 @@ public class TextureScale : MonoBehaviour
         }
     }
 
+    // PRIVATE MEMBERS ------------------------------------------------------------------------------------------
     private static Color[] texColors;
     private static Color[] newColors;
     private static int w;
@@ -26,16 +38,39 @@ public class TextureScale : MonoBehaviour
     private static int finishCount;
     private static Mutex mutex;
 
+    /* ------------------------------------------------------------------------- METHODS ---------------------------------------------------------------------------------- //
+
+        - Start() : Get the MeshGenerator script attached to the Mesh Renderer object in the scene.
+
+        // PNG METHODS ---------------------
+        - Point() : Creates Texture2D object from vertices in _mesh from MeshGenerator script. Sets colour according to MeshGenerator gradient (Reference in Unity Inspector) or B&W
+                          : Instantiates and returns a Texture2D in colour or Black and White based on if isColour is ticked.
+        - Bilinear() : Takes a Texture2D and scales it up according to the multiplier bi-linearly. 
+                          : Eg: If scaled up by 5, function will take original image, multiply size by 5
+                                and Lerp between subsequeent pixels to fill in the other 4 pixels.
+                          : Technique and code courtesy 'Eric5h5'. Find at: https://web.archive.org/web/20210506234020/http://wiki.unity3d.com/index.php/TextureScale
+        - ThreadedScale) : Saves created (and potentially scaled) texture to a PNG file in the format: "Export_n_on_DD-MM-YYYY.png" in directory "./Assets/PNG_Exports/"
+                      : Takes Texture2D as input parameter.
+        - BilinearScale() : Cumulative function that combines all three methods in the class in one - for easy use in other scripts.
+                        : Called from MeshInteractor script when Left Controller secondary button is pushed.
+
+        // FBX METHODS ---------------------
+
+        - PointScale() : Exports the scene as an FBX so it can be imported into other applications.
+
+    // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+    // ------------------------------------------------------------------------------------------
     public static void Point(Texture2D tex, int newWidth, int newHeight)
     {
         ThreadedScale(tex, newWidth, newHeight, false);
     }
-
+    // ------------------------------------------------------------------------------------------
     public static void Bilinear(Texture2D tex, int newWidth, int newHeight)
     {
         ThreadedScale(tex, newWidth, newHeight, true);
     }
-
+    // ------------------------------------------------------------------------------------------
     private static void ThreadedScale(Texture2D tex, int newWidth, int newHeight, bool useBilinear)
     {
         texColors = tex.GetPixels();
@@ -105,7 +140,7 @@ public class TextureScale : MonoBehaviour
         texColors = null;
         newColors = null;
     }
-
+    // ------------------------------------------------------------------------------------------
     public static void BilinearScale(System.Object obj)
     {
         ThreadData threadData = (ThreadData)obj;
@@ -130,7 +165,7 @@ public class TextureScale : MonoBehaviour
         finishCount++;
         mutex.ReleaseMutex();
     }
-
+    // ------------------------------------------------------------------------------------------
     public static void PointScale(System.Object obj)
     {
         ThreadData threadData = (ThreadData)obj;
@@ -148,7 +183,7 @@ public class TextureScale : MonoBehaviour
         finishCount++;
         mutex.ReleaseMutex();
     }
-
+    // ------------------------------------------------------------------------------------------
     private static Color ColorLerpUnclamped(Color c1, Color c2, float value)
     {
         return new Color(c1.r + (c2.r - c1.r) * value,
@@ -157,3 +192,4 @@ public class TextureScale : MonoBehaviour
                           c1.a + (c2.a - c1.a) * value);
     }
 }
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------- END OF SCRIPT //

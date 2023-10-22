@@ -26,7 +26,7 @@ public class Import_Export : MonoBehaviour
 
     // OBJECT REFERENCES ----------------------------------------------------------------------------------------
 
-    public GameObject _meshObject;  // Unity Game Object on which the mesh can be found
+    public GameObject _meshObject;  // Reference in Unity Inspector - Unity Game Object on which the mesh can be found
     private MeshGenerator _mesh;    // Object of type MeshGenerator
 
     // PUBLIC MEMBERS -------------------------------------------------------------------------------------------
@@ -55,11 +55,12 @@ public class Import_Export : MonoBehaviour
         - Start() : Get the MeshGenerator script attached to the Mesh Renderer object in the scene.
 
         // PNG METHODS ---------------------
-        - CreateTexture() : Creates Texture2D object from vertices in _mesh from MeshGenerator script.
+        - CreateTexture() : Creates Texture2D object from vertices in _mesh from MeshGenerator script. Sets colour according to MeshGenerator gradient (Reference in Unity Inspector) or B&W
                           : Instantiates and returns a Texture2D in colour or Black and White based on if isColour is ticked.
         - ScaleTexture() : Takes a Texture2D and scales it up according to the multiplier bi-linearly. 
                           : Eg: If scaled up by 5, function will take original image, multiply size by 5
                                 and Lerp between subsequeent pixels to fill in the other 4 pixels.
+                          : Technique and code courtesy 'Eric5h5'. Find at: https://web.archive.org/web/20210506234020/http://wiki.unity3d.com/index.php/TextureScale
         - SaveToPNG() : Saves created (and potentially scaled) texture to a PNG file in the format: "Export_n_on_DD-MM-YYYY.png" in directory "./Assets/PNG_Exports/"
                       : Takes Texture2D as input parameter.
         - ExportToPNG() : Cumulative function that combines all three methods in the class in one - for easy use in other scripts.
@@ -69,7 +70,7 @@ public class Import_Export : MonoBehaviour
 
         - ExportToFBX() : Exports the scene as an FBX so it can be imported into other applications.
 
-        // FBX METHODS ---------------------
+        // CUMULATIVE ----------------------
         - *** ExportScene() *** : Takes the _mesh as an argument. Used in Update() of MeshInteractor script.
                                 : Exports the scene as either an FBX or a coloured or B&W PNG Depth Map according to the user's choice.
 
@@ -81,7 +82,7 @@ public class Import_Export : MonoBehaviour
         _mesh = _meshObject.GetComponent<MeshGenerator>();   // Get the MeshGenerator script attached to the Mesh Renderer object in the scene
     }
 
-    // ------------------------------------------------------------------------------------------
+
     private Texture2D CreateTexture()  // Defaults to coloured image
     {
         Texture2D texture = new(_mesh.xSize, _mesh.zSize);               // Create a new texture the same size as the mesh for colour export
@@ -105,14 +106,19 @@ public class Import_Export : MonoBehaviour
         return texture;   // Return the local texture.
     }
 
-    // ------------------------------------------------------------------------------------------
+
+
+
     private Texture2D ScaleTexture(Texture2D texture)
     {
         TextureScale.Bilinear(texture, texture.width * resScale, texture.height * resScale);
         return texture; 
     }
 
-    // ------------------------------------------------------------------------------------------
+
+
+
+    // Code cumulated based on answers to 'Therazerproject's original question on the Unity Forums: https://discussions.unity.com/t/how-to-save-a-texture2d-into-a-png/184699
     private void SaveToPNG(Texture2D texture)
     {
         byte[] bytes = texture.EncodeToPNG();                    // Encode to PNG as byte array
@@ -132,7 +138,9 @@ public class Import_Export : MonoBehaviour
 #endif
 
     }
-    // ------------------------------------------------------------------------------------------
+
+
+    // -- CUMULATIVE ---------------------------------------------------------------------------
     public void ExportToPNG()
     {
         _texture = CreateTexture();
@@ -140,8 +148,6 @@ public class Import_Export : MonoBehaviour
         SaveToPNG(_texture);
     }
 
-
-    // ------------------------------------------------------------------------------------------
     // This method courtesy Unity Official Documentation at https://docs.unity3d.com/Packages/com.unity.formats.fbx@2.0/manual/devguide.html
     public void ExportTOFBX(Object objects)
     {
@@ -151,7 +157,7 @@ public class Import_Export : MonoBehaviour
     }
 
 
-    // *** ------------------------------ *** ------------------------------ *** ---- ExportScene() METHOD ---- *** ------------------------------ *** -------------------------- //
+    // *** -- CUMULATIVE ---------------- *** ------------------------------ *** ---- ExportScene() METHOD ---- *** ------------------------------ *** -------------------------- //
 
     public void ExportScene(MeshGenerator _mesh)
     {
@@ -161,5 +167,9 @@ public class Import_Export : MonoBehaviour
 
     // *** ------------------------------ *** ------------------------------ *** ------------------------------ *** ------------------------------ *** -------------------------- //
 }
+
+
+
+
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------- END OF SCRIPT //

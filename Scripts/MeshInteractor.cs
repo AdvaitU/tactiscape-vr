@@ -28,6 +28,7 @@ public class MeshInteractor : MonoBehaviour
     [Range(0.0f, 5.0f)]
     public float brushStrength = 1.0f;            // Magnitude with which vertices are pushed
     public bool strengthProportionalToRadius = true;
+    public float coneFieldOfView = 0.5f;           // 'Field of View' of the cone brush in front of the user
 
     public GameObject _influenceIndication;         // Reference to Import_Export Game Object set in Unity Inspector
     private InfluenceIndication _influence;
@@ -58,9 +59,6 @@ public class MeshInteractor : MonoBehaviour
         _landscapeScaling = GetComponent<LandscapeScaling>();
         _moveProvider = _player.GetComponent<ActionBasedContinuousMoveProvider>();
 
-
-
-        _influence.CreateInfluence(GetCharPos(), brushRadius);
         currTime = Time.time;
 
         if (strengthProportionalToRadius) brushStrength = brushRadius;
@@ -93,46 +91,45 @@ public class MeshInteractor : MonoBehaviour
 
         // ------------------------------------------------------------------------ AVERAGE BRUSHES ----------------------------------------------------------------------------- //
 
-
-        List<Vector3> relevantVertices = new();
-        Vector3 aggregateVertices = Vector3.zero;
-
-
+        /*
+                List<Vector3> relevantVertices = new();
+                Vector3 aggregateVertices = Vector3.zero;
 
 
-        for (int z = 0, i = 0; z <= zSize; z++)    // Nested for-loops to go through all rows and columns
-        {
-            for (int x = 0; x <= xSize; x++, i++)
-            {
-                if (SH_FrontOfCone(ref newVertices, ref i))  // If a vertices is within brushRadius distance from hand
+
+
+                for (int z = 0, i = 0; z <= zSize; z++)    // Nested for-loops to go through all rows and columns
                 {
-
-                    relevantVertices.Add(newVertices[i]);
-
-                    if (GetRightTrigger())   // If right trigger is pressed
+                    for (int x = 0; x <= xSize; x++, i++)
                     {
-                        foreach (Vector3 v in relevantVertices)
+                        if (SH_UnderCone(ref newVertices, ref i))  // If a vertices is within brushRadius distance from hand
                         {
-                            aggregateVertices += v;
-                        }
-                        aggregateVertices /= relevantVertices.Count;
-                        Vector3 directionToAverage = (GetRightPos() - aggregateVertices).normalized;
-                        newVertices[i] += brushStrength * Time.deltaTime * -directionToAverage * GetRightVelMagnitude();
-                        _meshGenerator.selectors[i].transform.position = newVertices[i];  // Move the selector spheres to the location of the new vertices
-                    }
 
-                    else if (GetRightGrip())    // If right grip is pressed
-                    {
-                        //B_PullUp(ref newVertices, ref i);
+                            relevantVertices.Add(newVertices[i]);
+
+                            if (GetRightTrigger())   // If right trigger is pressed
+                            {
+                                foreach (Vector3 v in relevantVertices)
+                                {
+                                    aggregateVertices += v;
+                                }
+                                aggregateVertices /= relevantVertices.Count;
+                                Vector3 directionToAverage = (GetRightPos() - aggregateVertices).normalized;
+                                B_FreeForm(ref newVertices, ref i);
+                            }
+
+                            else if (GetRightGrip())    // If right grip is pressed
+                            {
+                                //B_PullUp(ref newVertices, ref i);
+                            }
+                        }
+
+                        if (newVertices[i].y > maxHeight) maxHeight = newVertices[i].y;      // Update minHeight and maxHeight according to y generated using Perlin Noise
+                        if (newVertices[i].y < minHeight) minHeight = newVertices[i].y;      // At the end, we should have a variable measure of the max height and the min height in the generation.
                     }
                 }
 
-                if (newVertices[i].y > maxHeight) maxHeight = newVertices[i].y;      // Update minHeight and maxHeight according to y generated using Perlin Noise
-                if (newVertices[i].y < minHeight) minHeight = newVertices[i].y;      // At the end, we should have a variable measure of the max height and the min height in the generation.
-            }
-        }
-
-        relevantVertices.Clear();
+                relevantVertices.Clear();*/
 
 
 
@@ -145,28 +142,29 @@ public class MeshInteractor : MonoBehaviour
         // --------------------------------------------------------------------- NON AVERAGE BRUSHES ------------------------------------------------------------------------- //
 
 
-        /*for (int z = 0, i = 0; z <= zSize; z++)    // Nested for-loops to go through all rows and columns
+        for (int z = 0, i = 0; z <= zSize; z++)    // Nested for-loops to go through all rows and columns
         {
             for (int x = 0; x <= xSize; x++, i++)
             {
-                if (SH_UnderCone(ref newVertices, ref i))  // If a vertices is within brushRadius distance from hand
+                if (SH_ForwardCone(ref newVertices, ref i))  // If a vertices is within brushRadius distance from hand
                 {
 
                     if (GetRightTrigger())   // If right trigger is pressed
                     {
-                        B_PushDown(ref newVertices, ref i);
+                        B_FreeForm(ref newVertices, ref i);
                     }
 
                     else if (GetRightGrip())    // If right grip is pressed
                     {
-                        B_PullUp(ref newVertices, ref i);
+                        B_UpDownVelocity(ref newVertices, ref i);
                     }
+
                 }
 
                 if (newVertices[i].y > maxHeight) maxHeight = newVertices[i].y;      // Update minHeight and maxHeight according to y generated using Perlin Noise
                 if (newVertices[i].y < minHeight) minHeight = newVertices[i].y;      // At the end, we should have a variable measure of the max height and the min height in the generation.
             }
-        }*/
+        }
 
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
@@ -195,8 +193,6 @@ public class MeshInteractor : MonoBehaviour
         _meshGenerator.vertices = newVertices;
         _meshGenerator.triangles = newTriangles;
         _meshGenerator.colours = newColours;
-
-        _influence.UpdateInfluence(GetRightPos(), GetCharRot() * GetRightRot(), GetCharPos(), brushRadius);
 
         if (strengthProportionalToRadius) if (brushStrength != brushRadius) brushStrength = brushRadius;
 
@@ -330,7 +326,7 @@ public class MeshInteractor : MonoBehaviour
 
     private bool SH_Sphere(ref Vector3[] vertices, ref int i)
     {
-
+        _influence.SetActiveBrush(2, brushRadius);
         if (Vector3.Distance(vertices[i], GetRightPos()) <= brushRadius) return true;
         else return false;
     }
@@ -342,6 +338,8 @@ public class MeshInteractor : MonoBehaviour
 
     private bool SH_HemisphereDown(ref Vector3[] vertices, ref int i)
     {
+        _influence.SetActiveBrush(3, brushRadius);
+
         if (Vector3.Distance(vertices[i], GetRightPos()) <= brushRadius && (GetRightPos().y >= vertices[i].y))
         {
             _meshGenerator.selectors[i].GetComponent<Renderer>().material.color = new UnityEngine.Color(1.0f, 0.0f, 0.0f, 0.8f);      // Colour it red
@@ -355,18 +353,18 @@ public class MeshInteractor : MonoBehaviour
         }
     }
 
-    private bool SH_FrontOfCone(ref Vector3[] vertices, ref int i)
+    private bool SH_ForwardCone(ref Vector3[] vertices, ref int i)
     {
         Vector3 frontDirection = GetRightForwardVector();
         Vector3 directiontoVertice = (GetRightPos() - vertices[i]).normalized;
         float dotProductOfVectors = -Vector3.Dot(directiontoVertice, frontDirection);
-        
 
-        if (Vector3.Distance(vertices[i], GetRightPos()) <= brushRadius && (dotProductOfVectors > 0.5))
+        _influence.SetActiveBrush(0, brushRadius);
+
+        if (Vector3.Distance(vertices[i], GetRightPos()) <= brushRadius && (dotProductOfVectors > coneFieldOfView)) // To point it downwards Since cos(0) = 1
         {
             _meshGenerator.selectors[i].GetComponent<Renderer>().material.color = new UnityEngine.Color(1.0f, 0.0f, 0.0f, 0.8f);      // Colour it red
             if (AnyVelocityComponentHigherThan(GetRightVel(), 0.05f)) sendHapticFeedbackTouch = true;   // Touched is set to true
-            Debug.Log(dotProductOfVectors);
             return true;
         }
         else
@@ -383,8 +381,9 @@ public class MeshInteractor : MonoBehaviour
         Vector3 directiontoVertice = (GetRightPos() - vertices[i]).normalized;
         float dotProductOfVectors = -Vector3.Dot(directiontoVertice, frontDirection);
 
+        _influence.SetActiveBrush(1, brushRadius);
 
-        if (Vector3.Distance(vertices[i], GetRightPos()) <= brushRadius && (dotProductOfVectors < 0.3 || dotProductOfVectors > -0.3))
+        if (Vector3.Distance(vertices[i], GetRightPos()) <= brushRadius && (dotProductOfVectors < coneFieldOfView/2 || dotProductOfVectors > -coneFieldOfView / 2))  // To point it downwards Since cos(90) = 0
         {
             _meshGenerator.selectors[i].GetComponent<Renderer>().material.color = new UnityEngine.Color(1.0f, 0.0f, 0.0f, 0.8f);      // Colour it red
             if (AnyVelocityComponentHigherThan(GetRightVel(), 0.05f)) sendHapticFeedbackTouch = true;   // Touched is set to true
@@ -403,10 +402,6 @@ public class MeshInteractor : MonoBehaviour
 
     // ------------------------------------------------------------------------------- BRUSHES ---------------------------------------------------------------------------------------------//
 
-
-    /// <summary>
-    /// Radial Push and Pull Brushes
-    /// </summary>
     private void B_PushRadial(ref Vector3[] vertices, ref int i)
     {
         Vector3 direction = GetRightPos() - vertices[i];               // Direction from hand to vertice is given by subtracting one vector from the other
@@ -423,12 +418,6 @@ public class MeshInteractor : MonoBehaviour
         sendHapticFeedbackInteract = true;  // Set interact as true but touch as false if interacted
     }
 
-
-
-    /// <summary>
-    /// Y-axis Push and Pull Brushes - Only executed if hand is above vertice in question
-    /// </summary>
-
     private void B_Level(ref Vector3[] vertices, ref int i)
     {
         float direction = GetRightPos().y - vertices[i].y;
@@ -436,9 +425,6 @@ public class MeshInteractor : MonoBehaviour
         _meshGenerator.selectors[i].transform.position = vertices[i];
     }
 
-    /// <summary>
-    /// Same Brushes but vertices get pushed a magnitude inversly proportional from their distance to the hands
-    /// </summary>
     private void B_PushDown(ref Vector3[] vertices, ref int i)
     {
 
@@ -457,11 +443,22 @@ public class MeshInteractor : MonoBehaviour
     }
 
     // -------------
+
+    private void B_UpDownVelocity(ref Vector3[] vertices, ref int i)       // According to velocity but ony move in y
+    {
+
+        float distance = GetDistanceMagnitude(GetRightPos(), vertices[i]);
+        vertices[i] += brushStrength * Time.deltaTime * Vector3.up * GetRightVel().y / distance;    // Multiplied by Vectro3.down i.e. (0,-1,0)
+        _meshGenerator.selectors[i].transform.position = vertices[i];
+        sendHapticFeedbackInteract = true;  // Set interact as true but touch as false if interacted
+    }
+
+
     private void B_PushDownVelocity(ref Vector3[] vertices, ref int i)
     {
 
         float distance = GetDistanceMagnitude(GetRightPos(), vertices[i]);
-        vertices[i] += (brushStrength * Time.deltaTime * Vector3.down) + GetRightVel() / distance;    // Multiplied by Vectro3.down i.e. (0,-1,0)
+        vertices[i] += brushStrength * Time.deltaTime * Vector3.down * GetRightVelMagnitude() / distance;    // Multiplied by Vectro3.down i.e. (0,-1,0)
         _meshGenerator.selectors[i].transform.position = vertices[i];
         sendHapticFeedbackInteract = true;  // Set interact as true but touch as false if interacted
     }
@@ -472,5 +469,12 @@ public class MeshInteractor : MonoBehaviour
         vertices[i] += (brushStrength * Time.deltaTime * Vector3.up) + GetRightVel() / distance;    // Multiplied by Vectro3.up i.e. (0,1,0)
         _meshGenerator.selectors[i].transform.position = vertices[i];
         sendHapticFeedbackInteract = true;  // Set interact as true but touch as false if interacted
+    }
+
+    private void B_FreeForm(ref Vector3[] vertices, ref int i)
+    {
+        float distance = GetDistanceMagnitude(GetRightPos(), vertices[i]);
+        vertices[i] += brushStrength * Time.deltaTime * GetRightVel()/distance;
+        _meshGenerator.selectors[i].transform.position = vertices[i];  // Move the selector spheres to the location of the new vertices
     }
 }
