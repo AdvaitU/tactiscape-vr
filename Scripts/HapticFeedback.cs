@@ -60,6 +60,10 @@ public class HapticFeedback : MonoBehaviour
         controller.SendHapticImpulse(amplitude, durationSeconds);
     }
 
+    public void SendHaptics(Haptics action, float amplitude)   // Send to right hand with a specific amplitude proportional to the hand's velocity when interacting
+    { 
+        rightController.SendHapticImpulse(amplitude, action.durationSeconds);
+    }
 }
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------- END OF SCRIPT //

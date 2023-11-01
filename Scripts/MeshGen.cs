@@ -36,7 +36,7 @@ public class PlaneGenerator : MonoBehaviour
     /// </summary>
     public void UpdatePlane()
         {
-            GeneratePlane();
+            GeneratePlane(width, depth);
         }
     #endif
 
@@ -46,12 +46,12 @@ public class PlaneGenerator : MonoBehaviour
     void Start()
     {
         meshFilter = GetComponent<MeshFilter>();
-        GeneratePlane();
+        GeneratePlane(width, depth);
     }
     /// <summary>
     /// Method which generates plane.
     /// </summary>
-    private void GeneratePlane()
+    private void GeneratePlane(int width, int depth)
     {
         // Creating a mesh object.
         Mesh mesh = new();
