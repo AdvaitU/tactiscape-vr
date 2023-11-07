@@ -28,8 +28,9 @@ public class MeshInteractor : MonoBehaviour
     public Transform _rightForward;                             // Reference given in Unity Inspector - Forward vector of Right Hand
     [Tooltip("Reference to Influence Indication script that enables and disables models that show the brush's area of impact")]
     public GameObject _influenceIndication;                     // Reference given in Unity Inspector - Translucent models that show the area of influence
-    [Tooltip("Reference to Landscape Scaling script attached to Game Object")]
-    
+    [Tooltip("Reference to Control Popup script attached to Game Object")]
+                            
+
 
 
     // OBJECT REFERENCES - PRIVATE ----------------------------------------------------------------------------------------
@@ -41,7 +42,7 @@ public class MeshInteractor : MonoBehaviour
     private HapticFeedback _hapticFeedback;                     // Reference in Start() - HapticFeedback script that contains methods to send Haptic Feedback to right or left controllers
     private ActionBasedContinuousMoveProvider _moveProvider;    // Reference in Start() - Move Providor on VR Origin object to set movement speed in scaled landscape
     private LandscapeScaling _landscapeScaling;                 // Reference in Start() - Landscape Scaling Script
-
+    public ControlPopups _controlPopups;                        // Reference in Start() - Control Popups script
 
 
     // BRUSH SETTINGS ----------------------------
@@ -56,8 +57,8 @@ public class MeshInteractor : MonoBehaviour
     public bool strengthProportionalToRadius = true;
     [Tooltip("'Slope' of the conical brush. Default 0.5 = 60 degrees slope. 1 = 90 degrees slop i.e. hemisphere. 0 = 0 degrees slope i.e. Cone practically doesn't exist")]
     public float coneFieldOfView = 0.5f;           // 'Field of View' of the cone brush in front of the user
-    private readonly float brushRadiusMin = 0.1f;  // Minimum and Maxiumum permissible brush sizes in the programme
-    private readonly float brushRadiusMax = 3.0f;
+    public readonly float brushRadiusMin = 0.1f;  // Minimum and Maxiumum permissible brush sizes in the programme
+    public readonly float brushRadiusMax = 3.0f;
     // Selected Brush Shapes and impacts ---------
     [Tooltip("1. Free Form Deformation\n2. Velocity Up and Down\n3. Pinch Radial\n4. Push Radial\n5. Flatten")]
     [Range(1, 5)]
@@ -88,6 +89,7 @@ public class MeshInteractor : MonoBehaviour
         _influence = _influenceIndication.GetComponent<InfluenceIndication>(); // Get Influence Indication Script
         _landscapeScaling = GetComponent<LandscapeScaling>();
         _moveProvider = _player.GetComponent<ActionBasedContinuousMoveProvider>();
+        //_controlPopups = GetComponent<ControlPopups>();
 
         // Save time once on the first frame
         currTime = Time.time;
@@ -127,12 +129,18 @@ public class MeshInteractor : MonoBehaviour
         // 5. CHANGE BRUSH SIZE
         if (RightPrimaryButton)
         {
+            _controlPopups.ShowSizeToggle(true);
             if (RightGrip) brushRadius += 0.1f;
             if (LeftGrip) brushRadius -= 0.1f;
 
             if (brushRadius > brushRadiusMax) brushRadius = brushRadiusMin;      // Clip between 0.1 and 3.0
             else if (brushRadius < brushRadiusMin) brushRadius = brushRadiusMax;
         }
+        else _controlPopups.ShowSizeToggle(false);
+
+        // 6. SHOW CONTROL POPUPS
+        if (LeftTrigger) _controlPopups.ShowAll();
+        else _controlPopups.HideAll();
 
 
         // Haptic Feedback
