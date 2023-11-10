@@ -1,3 +1,13 @@
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+                                -------------------------------------- CONTROL POPUPS ------------------------------------------
+
+- SUMMARY: This script has methods to show and hide 2D sprite popups based on user interactions
+- USED IN: (MeshInteractor.cs) To set popups active and inactive based on user input
+- FOUND ON: 'UI' Game Object in Unity.
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+// Namespaces -------------------------------------------
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,9 +31,10 @@ public class ControlPopups : MonoBehaviour
     public GameObject show;
     public GameObject hide;
 
+    // Show All - Sets All as active --------------------------------------------------------------------------------
     public void ShowAll()
     {
-        show.SetActive(false);
+        show.SetActive(false);      // Sets the show sprite as inactive and replaces it with the hide sprite
         hide.SetActive(true);
 
         trigger.SetActive(true);
@@ -38,6 +49,7 @@ public class ControlPopups : MonoBehaviour
 
     }
 
+    // Hides all the popups except 'Show Control' sprite
     public void HideAll()
     {
         show.SetActive(true);
@@ -56,6 +68,7 @@ public class ControlPopups : MonoBehaviour
 
     }
 
+    // SHows size increase and decrease buttons when Size change button is pressed and held
     public void ShowSizeToggle(bool toggleOn)
     {
         increaseSize.SetActive(toggleOn);

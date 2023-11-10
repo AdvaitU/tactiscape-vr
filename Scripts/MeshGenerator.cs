@@ -1,3 +1,14 @@
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+                                -------------------------------------- MESH GENERATOR (MAIN SCRIPT) ------------------------------------------
+
+- SUMMARY: This script allows generates and stores the mesh properties such as vertices, triangles, normals, uvs, colours, etc. It shades the mesh according to a 
+            gradient using a vertex shader. It allows for mesh generation using a 3 octave Perlin Noise algorithm.
+- USED IN: (MeshInteractor.cs) Most of the functionality references the mesh created in this script
+- FOUND ON: 'Mesh Renderer' Game Object in Unity.
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+// Namespaces -------------------------------------------
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
