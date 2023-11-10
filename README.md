@@ -1,2 +1,2 @@
-# tan-3d-sculpting
+# TactiScape VR
 Tangible 3D Sculpting for VR using the Pseudo-Tactility Hypothesis (Unity with Oculus Quest 2)
