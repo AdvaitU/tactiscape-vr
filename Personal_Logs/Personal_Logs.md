@@ -6,15 +6,26 @@
 ### June 15 - June 30    
 
 #### First ideas - Really Thinking about what I want to build
-When I first got off into the summer break, I only had one thing in mind. I knew I wanted to make something that critically examines the role of tactility in the tangibility of a system. I'd been interested in the subject for the past two years and I'd been reading up a lot of material over the third semester (Quick Shout out to Mark Weiser's original [Ubiquitous Computing essay](http://scihi.org/mark-weiser-ubiquituous-computing/), still one of my dearest!). And I also knew I wanted to make something really really cool. In my head, the perfect amalgamation of both these objectives was Iron Man. Robert Downey Jr. muttering to himself as he swishes his hands here and there in a room filled with holograms was ESSENTIALLY cool. And so I started from there.
+When I first got off into the summer break, I had mainly one thing in mind. I knew I wanted to make something that critically examines the role of tactility in the tangibility of a system. I'd been interested in the subject for the past two years and I'd been reading up a lot of material over the third semester (Quick Shout out to Mark Weiser's original [Ubiquitous Computing essay](http://scihi.org/mark-weiser-ubiquituous-computing/), still one of my dearest!). And I also knew I wanted to make something really really cool. In my head, the perfect amalgamation of both these objectives was Iron Man. Robert Downey Jr. muttering to himself as he swishes his hands here and there in a room filled with holograms was ESSENTIALLY cool. And so I started from there.
 ![Robert Downey Jr in Iron Man building his suit](https://techthatthrills.files.wordpress.com/2020/08/iron-man.jpg)   
 
 #### 3D Sculpting - Setting the scope
 Knowing I wanted to create something of the sort, I watched Robert Downey Jr.'s Iron Man - the whole film, and then the suit building scene from Iron Man 2 again and again. It proved to be the perfect way to inspire myself while technically also counting as downtime having just finished the third semester of the MSc. And therein lay my first idea for the thesis - Iron Man was building suits, I could build anything. Having used CAD as an industrial designer for close to 5 years by this point and then new modelling environments such as Unreal and Blender while on the MSc., I was all too familiar with the complaints around it. Navigating a 3D environment in 2D is uneccesarily hard. Sure, I've gotten used to it now, over time, but I've never really enjoyed it. A few too many times in the past as I try to make an edit here or a delete there, I've gone wrong - not because I didn't know how to use the tools but because, I believe, the tools weren't really designed well.  "If I could model anything I wanted just like Tony Stark does with his hands, the whole process would be so much easier. Because it would be a lot more tangible! And more fun too! "     
 
-#### What does it mean for something to be tangible? 
+#### What does it mean for something to be tangible? And tactile?
+Before the school was officially on break for the summer, I got an opportunity to sepak with my supervisor Phoenix and the first thing she asked me to do was define what 'tangibility' and 'tactility'. These were terms I'd been throwing around but never really critically examined. I sat down and came up with these definitions - an extension of dictionary defintions based on individual experience:
 
-#### Tactility! - Defining tangibility and tactility for myself
+While traditionally, tangibility is related intrinsically to touch, its definition can be extended to include other sense that one is capable of perceiving. If something is tangible, that means it is comprehensible through some means. Hence, tangibility could be defined as:     
+    
+**Tangibility**: The perceptibility of an object.    
+
+Tactility, on the other hand, is more grounded in touch. But when Iron Man uses holograms to create his suit, he is not touching any tactile thing at all. He is performing the actions that he would with an otherwise tactile form with with results that match expectations of tactile objects. So tactility can be broken down into two - a subset and a superset. The superset, tactility, can be defined as:    
+    
+**Tactility**: The capability of an object to be touched.     
+     
+The subset can be defined as:    
+**Tactility**: The capability of an object to behave as though being touched - whether through physical touch or through simulated touch like haptic feedback, etc.
+     
 ## July
 ### July 01 - July 15 
 #### Why 3D Sculpting though??
