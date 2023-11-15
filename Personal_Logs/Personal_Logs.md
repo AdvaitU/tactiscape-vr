@@ -66,8 +66,21 @@ Another conflict I was trying to figure out was - Does it have to be just hands?
 ## August
 ### August 01 - August 15 
 #### Continued trials with Kinect - Still Impossible!!
+I continued work on the Kinect employing various strategies involving the integration of Kinect data into Unity, Unreal, Arduino IDE, and the previously used OpenFrameworks and Processing. Dan Schiffman's excellent Processing for Kinect videos provided me with a lot of help but it was still passing random values every now and then and completely failing to connect with my PC at other times. For the sake, I decided to give up on the development for the time being and focus instead on studying more literature where I could find possible answers. "It is still early August, Advait, it'll happen don't you worry."
+#### Basic Mechanism
+While the Kinect wasn't really working, I was still focuissing on the design model I want to achieve. For this, I decided to sit down and create what felt the most, incidentally, intuitive to me. For the purpose, I would need to know where the hands of the sculptor are at all times along with details such as orientation, pose, movement delta, etc. (which I would get through the Kinect presumably), a mesh filled with individual vertices that would be able to inherit movement from the hand, and a method to assign triangles to the vertices repeatedly. I called this system 'Free Form Vertice Displacement' as an ode to the FFD that inspired me. The first rough sketches looked as follows:     
+![]()
 #### Looking at more projects and literature - Categorising?
+As I looked deeper and deeper into the literature surrounding tactile modelling systems, I started categorising the projects I'd found internally. There were, of course, the purely theorotical papers that focussed on what it means for something to be tactile and how it could impact interaction. There were projects that used Head Mounted Displays like in VR to visualise 3D Models along with basic manipulation such as scaling and positioning. There were still more complex works that integrated the earlier mentioned FFD but their modelling techniques seemed alien to me and the antithesis of this research. There were systems that let user model in phjysical space and simply translated the created models to the virtual. These seemed fascinating and paper results indicated that users found it easier to model overall but the glaring issue that stood out was their feasibility in workspaces. For example, one project hypothesized a sand sculpting tray. Users could sculpt landscapes (just as in my proposed project) with the help of their hands in actual sand and then a Kinect was used to translate this data as a depth image and convert it into a matching (albeit poorly constructed) 3D Model. I took away a lot of learnings from each category I found - some more intuitive but less feasible, some more feasible but less intuitive, and some neither. There was an obvious gap that coincided with my research interest - how do you build something that is both?     
+
 #### There's a whole taxonomy paper in here! - Literature Review
+With my development not quite going as planned and tonnes of ideas flowing my way in the literature review, I sniffed out an opportunity - I could write a taxonomy paper! There were definitely visible categories amongst the works I'd read about and each category was distinct from the next. Some retained the 'trueness of tactility' as in the sandpit project. Some were more feasible but less intuitive, although chasing the same general direction of tactility, while very few achieved both but at the cost of performance. I decided to make a first draft of how I would categorise these systems and along what metrics. I decided to name the categories and after a number of names that I didn't quite like, such as 'Purely Tactile', 'Simulated Tactile', and 'Extended Tactile' systems, I settled on the following three:
+- Truly Tactile
+- Hybrid tactile
+- Pseudo Tactile
+This is the quick first version of the taxonomy. The finished version can be found in the paper under the literature review section (towards the end):
+![]()
+
 ### August 16 - August 31
 #### Something with this is off! - It needs to be visualised in 3D as well
 #### More literature review - Finding the gap
