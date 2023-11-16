@@ -87,12 +87,29 @@ This is the quick first version of the taxonomy. The finished version can be fou
 
 ### August 16 - August 31
 #### Something with this is off! - It needs to be visualised in 3D as well
-#### More literature review - Finding the gap
+As I was doing my experimentation in developing with the Kinect and various frameworks while trying to align my philosophy with my literature review, something kept feeling off about the method i'd chosen to address the gap. I decided to clear my head after an entire week of shacking up in my room developing mesh frameworks to go out in the world and try to find a third person perspective on the project. As I walked through Lucas Gardens for one last time (I was moving houses soon), an epiphany hit me: "If I'm developing something that tries to replicate the real world in response to traditional 2D interactions of CAD, why am I keeping the visualisation 2D?"
+I realised I was trying to solve only half the problem I had already recognised. Sure, the Kinect would help transition my interaction with 3D Sculpting software into 3D from 2D, but I was still deeply tied to the idea of a 2D Screen. Not deliberately, not by design, but because I hadn't considered the alternative. I decided to stop all work immediately and instead focus only on developing my internal 'Why's and then restart the 'How's. The timing, too, was all too convenient given my imminent move of houses.     
+     
+#### More literature review - Actually Writing It
+I spent the rest of the fortnight pretty much entirely occupied in the move to a new environment and had little time to utilise to work. Whatever time I had, I fell back into Literature Review and the formulisation of my argument. It is in this period that I wrote a major chunk of the actual Lit Review for the paper which 80% remains unchanged to the final submission.     
+     
 ## September
 ### September 01 - September 10 
 #### Chat with Lieven - Let's put some VR in here, that should do it!
-#### Looking at 3D Engines in detail - Unity, Unreal, OpenGL, OpenFrameworks, Processing?
+In the first week of September, I had a very helpful chat with Lieven Van Velthoven to decide the way forward for the project and to sound off a few ideas I'd had floating around in my head since last month's epiphany. After sharing a brief laugh about the stupidity I was about to embark on w.r.t. writing blob detection for the Kinect to just recognise one's hands, we arrived upon a solution that he was confident would work for me (Spoilers: Thanks Lieven, it did) - Using a VR headset with Unity Engine to develop my tool.        
+A VR headset would ensure the user had the capability to visualise the model they were working on in 3D real-time. It could be a mix of AR and VR according to user preference, but it would make navigating one's landscape seamless and present it at scale to aid visualisation.      
+Using Unity Engine, as Lieven pointed out, would give me a prebuilt base to create 3D Computer Graphics code, the kind I needed to pull this off. His suggestion for using Unity Engine over other engines came down to two main reasons:
+- Unity had in-built support for 3D Graphics and XR Interaction. This would cut down on the complexity and the resultant time I would need for developing.
+- Unity, having been around for years, had a loyal community and community built tools and plugins alongside extensive forums to help address any obstacle I hit.
+     
 #### Unity is the solution! - But everyone suddenly hates it??
+In order to make the best possible decision for a 3D engine, I decided to play devil's advocate. I borrowed a VR headset from a friend and tried integrating it into multiple engines, looking up titorials and gathering a background of what it would take for me to pull this off. I eventuially decided on using Unity as the following glaring arguments came up against the other Engines:
+- Unreal had great rendering capabilities but limited support on online forums and communities for XR Development due to the relatively shorter period of time it has been out for.
+- OpenFrameworks suffered from similar lesser degree of online support, but in addition, would also need far more optimisation on my part to ensure performance.
+- Processing, although having more resources online for the purpose,  wasn't as capable at being a 3D Engine in itself.
+      
+Funnily enough, as I was making the decision to choose Unity as my preferred 3D Engine to develop with, Unity announced its new **evil** monetisation strategy. Within the space of a week perfectly coinciding with me starting to love Unity, everyone online started hating it. It didn't matter as much to me, given thew scope of my project, but the timing gave me a good chuckle. We'll see if I do end up using Unity after this project for any purpose. My *money* is on 'not'.      
+
 ### September 11 - September 20
 #### Time I started developing! - Making the VR Rig in Unity
 #### Small tangent into Unreal - Won't work
