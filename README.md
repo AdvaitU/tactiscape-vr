@@ -1,7 +1,7 @@
 # TactiScape VR
 
 ## Quick Details
-**Description:** TactiScape VR is atool that uses simulated tactility to allow users to model 3D landscapes with their hands and gestures in virtual reality. TactiScape presents a novel Free Form Vertex Displacement (FFVD) technique that allows for real time deformation of large scale meshes using gestures and hand positioning. The accompanying research explores the impact such simulated tactility can have on the experience oif a 3D sculpting system viewed through the lenses of intuitivity, efficiency, immersion, enjoyability, etc.
+**Description:** TactiScape VR is a tool that uses simulated tactility to allow users to model 3D landscapes with their hands and gestures in virtual reality. TactiScape presents a novel Free Form Vertex Displacement (FFVD) technique that allows for real time deformation of large scale meshes using gestures and hand positioning. The accompanying research explores the impact such simulated tactility can have on the experience oif a 3D sculpting system viewed through the lenses of intuitivity, efficiency, immersion, enjoyability, etc.
 
 **Links to Important External Documents:**
 - [Research Paper]() - Called TactiScape VR - Creating and Studying the Effects of Simulated Tactility In 3D Sculpting through Free Form Vertex Based Displacement of Landscape Meshes In Virtual Reality
