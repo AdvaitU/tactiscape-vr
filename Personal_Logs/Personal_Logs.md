@@ -153,17 +153,50 @@ Then I took another step back and bought myself some clay. I realised as I start
 (a) I began speaking to a few sculptors and digital artists about their process sculpting - I found these through mutual friends and Camberwell College.     
 (b) I bought plasticine play-doh and downloaded Blender and started creating intricate landdscapes in it.     
      
-At the end of thie process, I'd realised all the tools I'd need to make.     
+At the end of thie process, I'd realised most of the tools I'd need to make and the functionalities that were crucial to effectively combine the advantages of the physical and the virtual - brush impact types, shifting sizes, visualisation techniques and angles, brush shapes, etc.
      
 ## October
 ### October 01 - October 10 
-#### Now what if I move my hands just a little bit? - Deforming the mesh little by little
 #### And what if I want to move around the world myself?
-#### Something's off with the scale!
+I also could, at this point, instance my player controller at any point in the mesh and look around. But not move. So I added player movement with a simple script as found in [this tutorial](https://www.youtube.com/watch?v=Jvb7sAR2Tmk)
+#### Now what if I move my hands just a little bit? - Deforming the mesh little by little
+I had a VR Controller able to pick up hand readings, I had a mesh generation script that was able to create beautiful perlin noise meshes, and together the two allowed me to walk in this nice landscape. Obviously, now I had to figure out how to sculpt it. I looked at a lot of video tutorials like [this one](https://www.youtube.com/watch?v=l_2uGpjBMl4) for example, and little by little, I pieced together the technique I would need to create my sculpting methods:
+- Create a separate Mesh Interactor script that inherits values from the VR Controller (Hand location, player location, etc.) and the Mesh Generator (Vertices Location, Triangles, etc.)
+- Check if values from the VR controller coincide with any values from the Mesh Generator (for loop to look at all vertices, collision?)
+- Translate the vertices away from the hand location.
+- Recalculate the triangle locations
+
+And I had to do it on every frame
 #### SUCCESS! - I CAN DEFORM THE MESH!
-### October 11 - October 20
-#### But what are all the ways in which I can deform the mesh? - Designing brushes
+And so I looked back at the design I had envisioned and write a new Mesh Interactor script. This script made a copy of the vertices from the mesh generator script, went through a for loop to look at each one of them, and at every vertex, translate it in the direction radially away from my right hand. The first prototype lacked any refinement and had a few problems:
+1. The vertices would translate the full length they were asked to in an instant making the movement too abrupt and not smooth in any way.
+2. The vertices were moving away from the hand's position, but smaller local hand movements were making no difference.
+3. All the vertices were moving the same degree away from the hand.
+
+I was happy to realise all these problems at once because they led me to better design solutions as I thought of ways to fix them. I fixed them as follows:
+
+#### 1. Framerate adjustment
+For this purpose, I fell back to a very elegant technique used in game design everywhere to make up for the difference in performance between machines. Movement in games is usually done per frame i.e., my formula for displacing the vertex is run once every frame. And so running the same formula on machines that are rendering at different frame rates makes it so that the total displacement of a vertex per second is higher on a better computer running higher framerates. The technique involves taking the displacement formula I created for translating the vertices and simply dividing it by the time taken to render two subsequent frames. This ensures that a device working at 30 frames per second and a device working at 120 frames per second both move an object the same amount (eg: 100 cm) over a second since the machines are displacing the object 100/30 = 3.33 cm and 100/120 = 0.83cm per frame respectively. 
+This also made the performance a whole lot smoother and vertices started getting displaced in a way that felt more natural.
+
+#### 2. Local Hand Movements
+I realised that moving my right hand slightly was causing no impact on the vertices and only significant movement in my position displaced them. As I dug into my code, I realised that although I was moving the vertices relative to my right hand position, my right hand position was always fixed on a larger scale as it was calculated relative to the player controller's position. I wrote functions that then calculated hand position more carefully and that led to the smallest movements in my right hand making for displacement. I of course had to make sure normal hand shaking wouldn't cause undesired movmement and so I calculated a margin in hand movement from 0 up till which the readings are not called into effect.
+
+#### 3. Solving for Feathering
+Finally, I realised that since every vertex was referring to the same formula and there wasn't a huge difference in direction from every vertex to the hand, all of them appeared to be displacing the same extent the same way. This was not consistent with how movements typically occur in the physical world. When I apply force onto clay, it is distributed with the clay nearest to my hands and in the direction of my motion feeling the largest amount of pressure. So I adjusted the formula accordingly making the displacement inversly proportional to the distance between the right hand and every individual vertex. This created a feather effect as seen in Blender for example.
+
 #### I don't want the whole thing to move! - Defining brush shapes!
+Another less immediate problem was that my displacement formula involved no complex mathematics for which vertices are selected for operation. It 'selected' all the vertices that were within a preset range from the right hand which lead to a lot of accidental and unintended manipulations (for example, of vertices behind the hand translating towards it when the hand is trying to push vertices in front of it away from it. At this stage I decided to make a few new 'brush shapes' The design for these is in the paper, but the gist is that creating these brushes included some calculations in addition to the proximity check including looking at a vertice's y position wrt the hand and looking at the hand's forward vector to analyse whther it was pointing exactly towards, generally towards, or away from every single vertex in its proximity.
+Using these techniques, I created the hemispherical and the spherical cone brushes in different directions for more precise manipulations.
+
+#### Something's off with the scale!
+Another thing that I quickly realised was that although visualising thew landscape I was working on at scale was great and helped me contextualise the world, it made it extrmely tedious to actually manipulate it. So I created a system where a user is permitted to scale the landscape up and down in order to conveniently work on it and/or conveniently and better visualise it.
+
+
+### October 11 - October 20
+
+#### But what are all the ways in which I can deform the mesh? - Designing brushes
+
 #### How do I show the area of influence?
 #### Looks good, but what if someone wants to take it to Blender next - The export system
 #### And what if they just want to visualise it? - PNG Exports
