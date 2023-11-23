@@ -10,7 +10,7 @@
 **This Repository:**
 - [Scripts](./Scripts/) - This folder contains all the scripts used to make the tool. Each scipt is documented with code commenting.
 - [Assets](./Assets/) - Assets folder for recreating Unity Project (Doesn't contain heavy assets due to GitHub's size limitations but contains instructions to get these open source assets)
-- [System Overview]() - Shows the System Overview and contains specific intructions to recreate the tool on your own using Unity.
+- [System Overview](https://github.com/AdvaitU/tactiscape-vr/blob/main/Scripts/SystemOverview.png) - Shows the System Overview and contains specific intructions to recreate the tool on your own using Unity.
 - [TactiScape.exe]() - Executable for Windows
 - [TactiScape.apk]() - Installer for Android (Standalone VR Headsets like Meta Quest 2)
 - [Personal Logs](./Personal_Logs/Personal_Logs.md) - Contains Personal Fortnightly Logs written during the development process as asked for the submission.
