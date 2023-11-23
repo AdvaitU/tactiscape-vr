@@ -112,14 +112,38 @@ Funnily enough, as I was making the decision to choose Unity as my preferred 3D 
 
 ### September 11 - September 20
 #### Time I started developing! - Making the VR Rig in Unity
-#### Small tangent into Unreal - Won't work
+The first step in development was a sanity check. Does making Unity VR actually work (of course it does). I started off by making the VR Controller. The VR Controller is a series of scripts and Unity Game Objects that allow for a user to take control of a player character, view, and move around the virtual world. It contains components such as the VR Camera, player body, player hands, animations for them, and the control scheme. Massive thanks to [Valem Tutorials](https://www.youtube.com/@ValemTutorials) on YouTube and their [VR Intro series for Unity](https://www.youtube.com/watch?v=HhtTtvBF5bI&list=PLpEoiloH-4eP-OKItF8XNJ8y8e1asOJud) - it helped me create the player controller perfectly!
+Through the tutorial and a few tweaks here and ther, I was able to create a player controller and camera that was able to look around, rotate and move in VR Space using the OVR (Oculus Virtual Reality) Toolkit for Unity.
 #### I bought the Meta Quest 2 - I hate it!
+When it was clear that this was going to work, I decided to purchase a Meta Quest 2 myself in order to reliably continue development without having to keep up with the borowee's timelines. I explored a bunch of VR headsets before making my decision including the Oculus Rift, Valve Index, Vive Pro 2, Pico, and Samsung Gear. Ultimately, I chose the Meta Quest 2 for the following reasons:
+- I was already using the OVR Toolkit and had tutorials and support for it online in case anything went wrong.
+- It came from a reliable name in VR - Oculus (now bought by Meta) and had tons of support available online
+- It was rather cheap at 200 pounds (second-hand from CeX)    
+    
+Of course, the first thing I tried to do with it was play Skyrim in VR, but that is outside the scope of this documentation hehehe.   
+
 #### Thesis Editing - What is my argument really? How am I framing it?
+While the Quest was out for delivery, I started looking at my research question again. I'd started off believing that creating this tool would make it more intuitive than regular tools in line with the tactility hypothesis. But having used my friend's VR headset for a bit to explore its capabilities, I realised that intuitiveness might not be the only thing that a VR headset and corporeal interactions could add to the act of 3D Sculpting. There was also:
+- Immersion - The engagement I felt in the VR world coupled with how immersed I was created an environment of almost no distractions. This could potentially aid any creative process.
+- Creativity - Creating in a new environment, based on my experience using Gravity Sketch, was so refreshing! I spent many hours sketching and making 3D models in Gravity Sketch on my borrowed Quest and as I reflected on my experience at the end, I was confident I'd been a lot more creative than with pen and paper. (Or felt a lot more creative, at the very least -All I'd really made was three dimensional doodles).
+- Fun! - I don't knkow what to say, it was just fun! And if I had that much fun, I saw all the reasons to be compelled to keep doing it.
+- Efficiency - I'd also felt vbery efficient making things in Gravity Sketch My hypothesis was, with a little getting used to the new environment, I would be able to create things a lot faster in VR using these physical interactions than on my PC     
+     
+I decided to integrate these in my research question, design towards them, and when the time came test against these additional metrics to gather dat.
+
 #### Hand Presence and Physics - OpenXR vs OVR Toolkit
+Once my VR Headset was here, I continued developing with the help of tutorials like [this one](https://www.youtube.com/watch?v=VG8hLKyTiJQ) and [this one](https://www.youtube.com/watch?v=gGYtahQjmWQ), but some or the other thing kept going wrong. Either I was able to launch the application succesfully but not move, or it would do both but then randomly stop working, or it would work fine but refuse to provide any readings from the controllers I could use in scripts, or do all of the above well but all the readings be 1.000. I decided to dig a little deeper in online forums and the underlying code to find out what was wrong. I soon realised the latter was beyond my job description, but the former yielded an answer: Unity had overhauled its entire XR system about 2 years ago and introduced its own XR Interaction Toolkit. (Thanks to [this video](https://www.youtube.com/watch?v=Yjee_e4fICc&t=103s) that finally helped me understand it all) This wiped all the support from community built resources I was relying on, third party tools like OVR, and made most of the tutorials I was looking at redundant, or at the very least confusing. To add to the problem, the XR Interaction Toolkit was sparsely documented online and amongst community tutorials due to its relative recency. It took a little working things around, but eventually I was able to work out one thing wrt to my project: I couldn't use OVR, I had to use OpenXR.
+This also additionally brought with it the advantage of not having to change the project up to use it on VR headsets other than Meta Quest 2, and that was definitely a win.    
+
 ### September 21 - September 31
 #### The Mesh Object!
+The next step was to find the right framework to integrate my fundamental design intop. I didn't have to look too far as I almost immediately found the Unity native Mesh object which let me define vertices as 3D Vectors with Cartesian locations. If everything went according to plan, I could then simply manipulate these vertices I supply to a mesh object through another class linked to the VR Controller data and achieve my vision. The mesh object required an array of vertices and triangles, along with uvs, normals, colours, etc. optionally (While normals are also a must, Unity's inbuilt RecalculateNormals() functions is reliable enough for the use case and just calling it every frame ensures I don't have to get into the specific mathematics of normals).
 #### Generating a mesh procedurally
+In order to generate a mesh, it was impossible to manually code in the amount of vertices and triangles I would need. It was also not the 1980s and I figured there had to be a better way to do this. Fortunately for me, I found a few rather easily. With learnings from tutorials such as [this one](https://www.youtube.com/watch?v=-3ekimUWb9I) and [Brackey's](https://www.youtube.com/@Brackeys) very helpful [series](https://www.youtube.com/watch?v=64NblGkAabk&t=374s), I was able to create a 2D mesh plane procedurally.
 #### Perlin Noise comes in clutch once again
+To make the mesh have terrain like qualities, I did two things:
+- I used my learnings about Perlin noise from Semester 1 to create 1D Perlin noise for the height of every single vertex. This made the landscape randome yet smooth, as Perlin noise does.
+- I used [this tutorial](https://www.youtube.com/watch?v=lNyZ9K71Vhc) to create a vertex shader using the Universal Render Pipeline and defined a gradient to plug into a vertex shader. This made sure that every single vertex and its surrounding area on the mesh was shaded according to its height relative to the miniimum and maximum height in the mesh's vertices in order to give the illusion of terrain for easy visualisation of the impact sculpting it was creating later on.
 #### Vertex Shading - Universal Render Pipeline!
 #### Talking to sculptors - What do they really do?
 ## October
