@@ -7,10 +7,11 @@
 - [Research Paper](https://github.com/AdvaitU/tactiscape-vr/blob/main/AdvaitUkidve-TactiScapeVR-ThesisThesis.pdf) - Called TactiScape VR - Creating and Studying the Effects of Simulated Tactility In 3D Sculpting through Free Form Vertex Based Displacement of Landscape Meshes In Virtual Reality
 - [Video Presentation](https://www.youtube.com/watch?v=_FOe3XUQhgI) - Quick 5 minute breakdown of the tool and accompanying research.
 - [Personal Logs](./Personal_Logs/Personal_Logs.md) - Contains Personal Fortnightly Logs written during the development process as asked for the submission.
+- [Scripts](./Scripts/) - This folder contains all the code used to make the tool. Each scipt is documented with code commenting.
+- [Assets](./Assets/) - This folder contains all the prefabs needed to run the code with in Unity
 
 ## Other Files in the Repository
-- [Scripts](./Scripts/) - This folder contains all the scripts used to make the tool. Each scipt is documented with code commenting.
-- [Assets](./Assets/) - Assets folder for recreating Unity Project (Check below for installation guide)
+
 - [System Overview](./Scripts/SystemOverview.png) - Shows the System Overview and contains specific intructions to recreate the tool on your own using Unity.
 - [Builds](./Builds/) contains all TactiScape 1.0 builds for Windows-Mac-Linux, WebGL, and Android standalone headsets (Andropid 4.0+ only)
 
