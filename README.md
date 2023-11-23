@@ -5,7 +5,7 @@
 
 **Links to Important External Documents:**
 - [Research Paper]() - Called TactiScape VR - Creating and Studying the Effects of Simulated Tactility In 3D Sculpting through Free Form Vertex Based Displacement of Landscape Meshes In Virtual Reality
-- [Video Presentation]() - Quick 5 minute breakdown of the tool and accompanying research.
+- [Video Presentation](https://www.youtube.com/watch?v=_FOe3XUQhgI) - Quick 5 minute breakdown of the tool and accompanying research.
 
 **This Repository:**
 - [Scripts](./Scripts/) - This folder contains all the scripts used to make the tool. Each scipt is documented with code commenting.
