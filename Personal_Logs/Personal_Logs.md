@@ -136,16 +136,25 @@ Once my VR Headset was here, I continued developing with the help of tutorials l
 This also additionally brought with it the advantage of not having to change the project up to use it on VR headsets other than Meta Quest 2, and that was definitely a win.    
 
 ### September 21 - September 31
+
 #### The Mesh Object!
 The next step was to find the right framework to integrate my fundamental design intop. I didn't have to look too far as I almost immediately found the Unity native Mesh object which let me define vertices as 3D Vectors with Cartesian locations. If everything went according to plan, I could then simply manipulate these vertices I supply to a mesh object through another class linked to the VR Controller data and achieve my vision. The mesh object required an array of vertices and triangles, along with uvs, normals, colours, etc. optionally (While normals are also a must, Unity's inbuilt RecalculateNormals() functions is reliable enough for the use case and just calling it every frame ensures I don't have to get into the specific mathematics of normals).
+
 #### Generating a mesh procedurally
 In order to generate a mesh, it was impossible to manually code in the amount of vertices and triangles I would need. It was also not the 1980s and I figured there had to be a better way to do this. Fortunately for me, I found a few rather easily. With learnings from tutorials such as [this one](https://www.youtube.com/watch?v=-3ekimUWb9I) and [Brackey's](https://www.youtube.com/@Brackeys) very helpful [series](https://www.youtube.com/watch?v=64NblGkAabk&t=374s), I was able to create a 2D mesh plane procedurally.
-#### Perlin Noise comes in clutch once again
+
+#### Perlin Noise comes in clutch once again + Vertex Shading in URP
 To make the mesh have terrain like qualities, I did two things:
 - I used my learnings about Perlin noise from Semester 1 to create 1D Perlin noise for the height of every single vertex. This made the landscape randome yet smooth, as Perlin noise does.
 - I used [this tutorial](https://www.youtube.com/watch?v=lNyZ9K71Vhc) to create a vertex shader using the Universal Render Pipeline and defined a gradient to plug into a vertex shader. This made sure that every single vertex and its surrounding area on the mesh was shaded according to its height relative to the miniimum and maximum height in the mesh's vertices in order to give the illusion of terrain for easy visualisation of the impact sculpting it was creating later on.
-#### Vertex Shading - Universal Render Pipeline!
+
 #### Talking to sculptors - What do they really do?
+Then I took another step back and bought myself some clay. I realised as I started really thinking about how I would allow the user to sculpt this mesh, that I had little to nop idea how to sculpt anything. I decided to undergo a two prong approach:
+(a) I began speaking to a few sculptors and digital artists about their process sculpting - I found these through mutual friends and Camberwell College.     
+(b) I bought plasticine play-doh and downloaded Blender and started creating intricate landdscapes in it.     
+     
+At the end of thie process, I'd realised all the tools I'd need to make.     
+     
 ## October
 ### October 01 - October 10 
 #### Now what if I move my hands just a little bit? - Deforming the mesh little by little
